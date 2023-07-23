@@ -1,7 +1,7 @@
 import mido
 import csv
 import numpy as np
-
+import os
 
 file_path = "Liebestraume.mid"
 time_signature = {}
@@ -51,6 +51,7 @@ chords = []
 
 
 def parse_midi_file(file_path, time_signature):
+    print("Parsing MIDI file:", file_path)
     try:
         mid = mido.MidiFile(file_path)
         print("MIDI file type:", mid.type)
@@ -83,7 +84,7 @@ def parse_midi_file(file_path, time_signature):
                     print("Track name:", track_name)
 
                 currentNotes = len(active_notes)
-                if currentNotes > 2 and currentNotes < 4:
+                if currentNotes > 1 and currentNotes < 5:
                     currentNotesInChord = []
                     lastNoteTimes = None
                     for note, times in active_notes.items():
@@ -92,15 +93,20 @@ def parse_midi_file(file_path, time_signature):
                     chords.append({'notes': currentNotesInChord,
                                   'position': lastNoteTimes['position']})
 
-        # Write simultaneous notes to CSV file
-        # print(chords)
-        csv_file_path = 'chords.csv'
-        print(csv_file_path)
-        write_chords_to_csv(chords, csv_file_path)
-        # print("CSV file written successfully:", csv_file_path)
-
     except mido.InvalidMidiDataError as e:
         print("Invalid MIDI file:", e)
 
 
-parse_midi_file(file_path, time_signature)
+# parse_midi_file(file_path, time_signature)
+
+# loop over midi folder
+for file in os.listdir("midi"):
+    if file.endswith(".mid"):
+        parse_midi_file('./midi/'+file, time_signature)
+
+# Write simultaneous notes to CSV file
+# print(chords)
+csv_file_path = 'chords.csv'
+print(csv_file_path)
+write_chords_to_csv(chords, csv_file_path)
+# print("CSV file written successfully:", csv_file_path)
