@@ -49,37 +49,6 @@ model = ChordPredictionModel(
 model.to(device)
 
 
-class ChordPredictionModel(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim, num_layers):
-        super(ChordPredictionModel, self).__init__()
-
-        self.hidden_dim = hidden_dim
-        self.num_layers = num_layers
-
-        # Define the LSTM layer
-        self.lstm = nn.LSTM(input_dim, hidden_dim,
-                            num_layers, batch_first=True)
-
-        # Define the output layer
-        self.linear = nn.Linear(hidden_dim, output_dim)
-
-    def forward(self, x):
-        # Reshape input tensor to have a batch dimension
-        x = x.unsqueeze(0)
-
-        # Initialize hidden state and cell state
-        h0 = torch.zeros(self.num_layers, x.size(0),
-                         self.hidden_dim).to(x.device)
-        c0 = torch.zeros(self.num_layers, x.size(0),
-                         self.hidden_dim).to(x.device)
-
-        # Forward propagate the LSTM
-        out, _ = self.lstm(x, (h0, c0))
-
-        # Decode the hidden state of the last time step
-        out = self.linear(out[:, -1, :])
-        return torch.relu(out)
-
 # Training loop
 
 
