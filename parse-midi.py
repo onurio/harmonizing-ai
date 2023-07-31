@@ -2,6 +2,7 @@ import mido
 import csv
 import numpy as np
 import os
+import copy
 
 file_path = "Liebestraume.mid"
 time_signature = {}
@@ -52,6 +53,8 @@ chords = []
 
 def parse_midi_file(file_path, time_signature):
     print("Parsing MIDI file:", file_path)
+    current_chords = []
+    current_position = None
     try:
         mid = mido.MidiFile(file_path)
         print("MIDI file type:", mid.type)
@@ -90,8 +93,21 @@ def parse_midi_file(file_path, time_signature):
                     for note, times in active_notes.items():
                         currentNotesInChord.append(note)
                         lastNoteTimes = times
-                    chords.append({'notes': currentNotesInChord,
-                                  'position': lastNoteTimes['position']})
+                    if current_position != lastNoteTimes['position']:
+                        current_position = times['position']
+                        current_chords.append({'notes': currentNotesInChord,
+                                               'position': lastNoteTimes['position']})
+
+            # for each piece add all the chords in 11 more keys
+            chordsReplica = copy.copy(current_chords)
+            for i in range(1, 12):
+                print("Transposing by", i, "semitones", file_path)
+                for chord in chordsReplica:
+                    transposedNotes = [note + i for note in chord['notes']]
+                    current_chords.append({'notes': transposedNotes,
+                                           'position': chord['position']}),
+        print("Number of chords:", len(chords), len(current_chords))
+        chords.extend(current_chords)
 
     except mido.InvalidMidiDataError as e:
         print("Invalid MIDI file:", e)

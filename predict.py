@@ -8,7 +8,7 @@ from pythonosc import dispatcher
 from pythonosc import udp_client
 import argparse
 
-#device = torch.device("cuda")
+# device = torch.device("cuda")
 
 
 class ChordPredictionModel(nn.Module):
@@ -35,19 +35,21 @@ class ChordPredictionModel(nn.Module):
         out = self.dense2(out)
         return out
 
+
 # Set hyperparameters
 input_dim = 128
 hidden_dim1 = 256
 hidden_dim2 = 512
 output_dim = 127
-dropout_prob = 0.3
+dropout_prob = 0.5
 
 # Initialize the model
 model = ChordPredictionModel(
     input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob)
 
 
-model.load_state_dict(torch.load('path_to_save_model.pth', map_location=torch.device('cpu')))
+model.load_state_dict(torch.load('path_to_save_model.pth',
+                      map_location=torch.device('cpu')))
 
 
 # Generate an example input tensor
@@ -74,20 +76,20 @@ model.eval()  # Set the model to evaluation mode
 #     example_input = torch.tensor(ready_out).reshape(1, 128)
 
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="127.0.0.1",
-    help="The ip of the OSC server")
-parser.add_argument("--port", type=int, default=9001,
-    help="The port the OSC server is listening on")
+                    help="The ip of the OSC server")
+parser.add_argument("--port", type=int, default=9002,
+                    help="The port the OSC server is listening on")
 args = parser.parse_args()
 # Set up OSC client (for sending messages)
 client = udp_client.SimpleUDPClient(args.ip, args.port)
 client.send_message("/status", 1)
 
+
 def handle_message(unused_addr, *values):
     # Convert the received values to a PyTorch tensor
-    #input_data = torch.tensor(values, dtype=torch.float32).unsqueeze(0)  # unsqueeze(0) to add batch dimension
+    # input_data = torch.tensor(values, dtype=torch.float32).unsqueeze(0)  # unsqueeze(0) to add batch dimension
     print(f"/input - {values}")
     # Send the input data to the model and get the output
     indices = np.array(values[1:])
@@ -95,13 +97,16 @@ def handle_message(unused_addr, *values):
     input_arr[indices] = 1
     input_arr = np.insert(input_arr, 0, values[:1])
     print(f" did it work?? {input_arr}")
-      
-    example_input = torch.tensor(input_arr, dtype=torch.float32).reshape(1, 128)
+
+    example_input = torch.tensor(
+        input_arr, dtype=torch.float32).reshape(1, 128)
     output = model(example_input)
     # Convert the output to a list and send it back over OSC
-    output_list = output.sigmoid().squeeze(0).tolist()  # squeeze(0) to remove batch dimension  
-    print(f"the output = {output_list}") 
+    # squeeze(0) to remove batch dimension
+    output_list = output.sigmoid().squeeze(0).tolist()
+    print(f"the output = {output_list}")
     client.send_message("/prediction", output_list)
+
 
 # Set up OSC server (for receiving messages)
 dispatcher = dispatcher.Dispatcher()

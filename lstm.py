@@ -37,9 +37,9 @@ input_dim = 128
 hidden_dim1 = 256
 hidden_dim2 = 512
 output_dim = 127
-learning_rate = 0.001  # Adjust the learning rate as desired
-dropout_prob = 0.3
-batch_size = 64
+learning_rate = 0.0005  # Adjust the learning rate as desired
+dropout_prob = 0.5
+batch_size = 16
 num_epochs = 300
 
 # Initialize the model
