@@ -53,28 +53,31 @@ model.to(device)
 
 
 def train_model(model, data_loader, criterion, optimizer, num_epochs):
-    for epoch in range(num_epochs):
-        total_loss = 0.0
-        for inputs, targets in data_loader:
-            # Move data to GPU if available
-            inputs, targets = inputs.to(device), targets.to(device)
+    try:
+        for epoch in range(num_epochs):
+            total_loss = 0.0
+            for inputs, targets in data_loader:
+                # Move data to GPU if available
+                inputs, targets = inputs.to(device), targets.to(device)
 
-            # Forward pass
-            outputs = model(inputs)
-            loss = criterion(outputs, targets)
+                # Forward pass
+                outputs = model(inputs)
+                loss = criterion(outputs, targets)
 
-            # Backward pass and optimization
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+                # Backward pass and optimization
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
 
-            total_loss += loss.item()
+                total_loss += loss.item()
 
-        # Calculate average loss for the epoch
-        average_loss = total_loss / len(train_loader)
+            # Calculate average loss for the epoch
+            average_loss = total_loss / len(train_loader)
 
-        # Print the progress
-        print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {average_loss:.4f}")
+            # Print the progress
+            print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {average_loss:.4f}")
+    except KeyboardInterrupt:
+        print("Training interrupted by keyboard!")
 
 # Initialize the model, loss, and optimizer
 
