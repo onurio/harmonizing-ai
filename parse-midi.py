@@ -93,10 +93,12 @@ def parse_midi_file(file_path, time_signature):
                     for note, times in active_notes.items():
                         currentNotesInChord.append(note)
                         lastNoteTimes = times
-                    if current_position != lastNoteTimes['position']:
-                        current_position = times['position']
-                        current_chords.append({'notes': currentNotesInChord,
-                                               'position': lastNoteTimes['position']})
+                    # if current_position != lastNoteTimes['position']:
+                    current_position = times['position']
+                    current_chords.append({'notes': currentNotesInChord,
+                                           'position': lastNoteTimes['position']})
+                    # else:
+                    # print(currentNotesInChord)
 
             # for each piece add all the chords in 11 more keys
             chordsReplica = copy.copy(current_chords)
