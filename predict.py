@@ -7,41 +7,16 @@ from pythonosc import osc_server
 from pythonosc import dispatcher
 from pythonosc import udp_client
 import argparse
-
+from ChordPredictionModel import ChordPredictionModel
 # device = torch.device("cuda")
-
-
-class ChordPredictionModel(nn.Module):
-    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob):
-        super(ChordPredictionModel, self).__init__()
-
-        self.lstm1 = nn.LSTM(input_dim, hidden_dim1, batch_first=True)
-        self.dropout1 = nn.Dropout(dropout_prob)
-        self.lstm2 = nn.LSTM(hidden_dim1, hidden_dim2, batch_first=True)
-        self.dropout2 = nn.Dropout(dropout_prob)
-        self.lstm3 = nn.LSTM(hidden_dim2, hidden_dim1, batch_first=True)
-        self.dense1 = nn.Linear(hidden_dim1, 256)
-        self.dropout3 = nn.Dropout(dropout_prob)
-        self.dense2 = nn.Linear(256, output_dim)
-
-    def forward(self, x):
-        out, _ = self.lstm1(x)
-        out = self.dropout1(out)
-        out, _ = self.lstm2(out)
-        out = self.dropout2(out)
-        out, _ = self.lstm3(out)
-        out = self.dense1(out)
-        out = self.dropout3(out)
-        out = self.dense2(out)
-        return out
 
 
 # Set hyperparameters
 input_dim = 128
 hidden_dim1 = 256
 hidden_dim2 = 512
-output_dim = 127
-dropout_prob = 0.5
+output_dim = 128
+dropout_prob = 0.3
 
 # Initialize the model
 model = ChordPredictionModel(
@@ -79,7 +54,7 @@ model.eval()  # Set the model to evaluation mode
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="127.0.0.1",
                     help="The ip of the OSC server")
-parser.add_argument("--port", type=int, default=9001,
+parser.add_argument("--port", type=int, default=9002,
                     help="The port the OSC server is listening on")
 args = parser.parse_args()
 # Set up OSC client (for sending messages)
@@ -96,7 +71,6 @@ def handle_message(unused_addr, *values):
     input_arr = np.zeros(127)
     input_arr[indices] = 1
     input_arr = np.insert(input_arr, 0, values[:1])
-    print(f" did it work?? {input_arr}")
 
     example_input = torch.tensor(
         input_arr, dtype=torch.float32).reshape(1, 128)

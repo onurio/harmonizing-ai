@@ -101,13 +101,13 @@ def parse_midi_file(file_path, time_signature):
                     # print(currentNotesInChord)
 
             # for each piece add all the chords in 11 more keys
-            chordsReplica = copy.copy(current_chords)
-            for i in range(1, 12):
-                print("Transposing by", i, "semitones", file_path)
-                for chord in chordsReplica:
-                    transposedNotes = [note + i for note in chord['notes']]
-                    current_chords.append({'notes': transposedNotes,
-                                           'position': chord['position']}),
+            # chordsReplica = copy.copy(current_chords)
+            # for i in range(1, 12):
+            #     print("Transposing by", i, "semitones", file_path)
+            #     for chord in chordsReplica:
+            #         transposedNotes = [note + i for note in chord['notes']]
+            #         current_chords.append({'notes': transposedNotes,
+            #                                'position': chord['position']}),
         print("Number of chords:", len(chords), len(current_chords))
         chords.extend(current_chords)
 
