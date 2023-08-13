@@ -3,7 +3,6 @@ import numpy as np
 import os
 import copy
 from mido import MidiFile
-from music21 import midi
 
 midi_filename = "./midi/bach-tempered-claviere-fugue1.mid"
 time_signature = {}
