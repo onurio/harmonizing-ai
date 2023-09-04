@@ -130,7 +130,7 @@ write_chords_to_csv(total_chords, csv_file_path)
 # # print("CSV file written successfully:", csv_file_path)
 
 
-with open('just_chords', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    for (time, chord) in total_chords:
-        writer.writerow(chord.sort())
+# with open('just_chords', 'w', newline='') as csvfile:
+#     writer = csv.writer(csvfile)
+#     for (time, chord) in total_chords:
+#         writer.writerow(chord.sort())
