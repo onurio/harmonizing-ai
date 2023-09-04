@@ -2,3 +2,4 @@ input_chords.csv
 output_chords.csv
 *.mid
 lightning_logs/
+*.csv
