@@ -30,12 +30,12 @@ def write_chords_to_csv(chords, file_path):
             notes = chord
             notes.sort()
             notes.reverse()
-            writer.writerow([notes[0]])
+            writer.writerow([int(notes[0])])
 
     with open('output_'+file_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         for (time, chord) in chords:
-            writer.writerow(chord)
+            writer.writerow([int(num) for num in chord])
 
 
 def get_time_signature(midi_file):

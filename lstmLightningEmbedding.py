@@ -27,7 +27,7 @@ class ChordDataset(Dataset):
         with open(target_file, 'r') as file:
             for line in file:
                 # Split each line by commas and convert to integers
-                notes = [int(note) for note in line.strip().split(',')]
+                notes = line.strip().split(',')
                 self.target_data.append(notes)
 
         self.subset_size = int(len(self.input_data) * subset_percentage / 100)
@@ -36,8 +36,6 @@ class ChordDataset(Dataset):
         return self.subset_size
 
     def __getitem__(self, index):
-        # Assuming input is a single MIDI note index
-        input_data = torch.LongTensor()
         # Variable-length list of MIDI note indices
         sequence_length = len(self.target_data[index])
         target_padded = self.target_data[index]

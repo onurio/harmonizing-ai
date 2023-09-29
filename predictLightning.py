@@ -21,7 +21,7 @@ device = torch.device('cpu')
 criterion = nn.MSELoss()
 
 # Initialize the model
-checkpoint_path = '2023-08-22T14:18:55.826048MSE.ckpt'
+checkpoint_path = '2023-09-03T23:52:58.092608CrossEntropyLoss.ckpt'
 model = ChordPredictionModelLightning.load_from_checkpoint(
     checkpoint_path=checkpoint_path, criterion=criterion)
 

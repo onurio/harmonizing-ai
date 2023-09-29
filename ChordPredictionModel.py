@@ -4,18 +4,15 @@ from torch import nn
 
 
 class ChordPredictionModel(nn.Module):
-    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob, bidirectional=True):
+    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob):
         super(ChordPredictionModel, self).__init__()
 
-        self.lstm1 = nn.LSTM(input_dim, hidden_dim1, batch_first=True,
-                             bidirectional=bidirectional)
+        self.lstm1 = nn.LSTM(input_dim, hidden_dim1, batch_first=True)
         self.dropout1 = nn.Dropout(p=dropout_prob)
-        self.lstm2 = nn.LSTM(hidden_dim1 * 2 if bidirectional else 1, hidden_dim2, batch_first=True,
-                             bidirectional=bidirectional)
+        self.lstm2 = nn.LSTM(hidden_dim1, hidden_dim2, batch_first=True)
         self.dropout2 = nn.Dropout(p=dropout_prob)
-        self.lstm3 = nn.LSTM(hidden_dim2 * 2 if bidirectional else 1, hidden_dim1, batch_first=True,
-                             bidirectional=bidirectional)
-        self.dense1 = nn.Linear(hidden_dim1 * 2 if bidirectional else 1, 256)
+        self.lstm3 = nn.LSTM(hidden_dim2, hidden_dim1, batch_first=True)
+        self.dense1 = nn.Linear(hidden_dim1, 256)
         self.dropout3 = nn.Dropout(p=dropout_prob)
         self.dense2 = nn.Linear(256, output_dim)
         self.leakyRelu = nn.Sigmoid()
@@ -37,19 +34,16 @@ class ChordPredictionModel(nn.Module):
 
 
 class ChordPredictionModelLightning(L.LightningModule):
-    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob, learning_rate, criterion, bidirectional=True):
+    def __init__(self, input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob, learning_rate, criterion):
         super(ChordPredictionModelLightning, self).__init__()
         self.learning_rate = learning_rate
         self.criterion = criterion
-        self.lstm1 = nn.LSTM(input_dim, hidden_dim1, batch_first=True,
-                             bidirectional=bidirectional)
+        self.lstm1 = nn.LSTM(input_dim, hidden_dim1, batch_first=True)
         self.dropout1 = nn.Dropout(dropout_prob)
-        self.lstm2 = nn.LSTM(hidden_dim1 * 2 if bidirectional else 1, hidden_dim2, batch_first=True,
-                             bidirectional=bidirectional)
+        self.lstm2 = nn.LSTM(hidden_dim1, hidden_dim2, batch_first=True)
         self.dropout2 = nn.Dropout(dropout_prob)
-        self.lstm3 = nn.LSTM(hidden_dim2 * 2 if bidirectional else 1, hidden_dim1, batch_first=True,
-                             bidirectional=bidirectional)
-        self.dense1 = nn.Linear(hidden_dim1 * 2 if bidirectional else 1, 256)
+        self.lstm3 = nn.LSTM(hidden_dim2, hidden_dim1, batch_first=True)
+        self.dense1 = nn.Linear(hidden_dim1, 256)
         self.dropout3 = nn.Dropout(dropout_prob)
         self.dense2 = nn.Linear(256, output_dim)
         # self.leakyRelu = nn.Sigmoid()
@@ -101,13 +95,17 @@ class ChordPredictionModelLightningEmbedding(L.LightningModule):
         self.dense1 = nn.Linear(hidden_dim1, 256)
         self.dropout3 = nn.Dropout(dropout_prob)
         self.dense2 = nn.Linear(256, output_dim)
+        self.long = torch.LongTensor
+        self.float = torch.FloatTensor
+
         # self.leakyRelu = nn.Sigmoid()
         # self.signmoid = nn.Sigmoid()
         self.save_hyperparameters(ignore=['criterion'])
 
     def forward(self, x):
         out = self.embedding(x)
-        out = self.lstm1(x)
+        out = self.float(out)
+        out = self.lstm1(out)
         out = self.dropout1(out)
         out = self.lstm2(out)
         out = self.dropout2(out)
@@ -115,6 +113,7 @@ class ChordPredictionModelLightningEmbedding(L.LightningModule):
         out = self.dense1(out)
         out = self.dropout3(out)
         out = self.dense2(out)
+        out = self.long(out)
         # out = self.leakyRelu(out)
         # out = self.signmoid(out)
         return out

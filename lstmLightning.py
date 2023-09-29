@@ -49,7 +49,7 @@ if __name__ == '__main__':
     for criterion in criterions:
         # Initialize the model
         model = ChordPredictionModelLightning(
-            input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob, learning_rate, criterion, False)
+            input_dim, hidden_dim1, hidden_dim2, output_dim, dropout_prob, learning_rate, criterion)
         trainer = L.Trainer(accelerator='gpu', devices=1,
                             max_epochs=num_epochs, profiler="simple", callbacks=[EarlyStopping(monitor="val_loss", mode="min", patience=2)])
 
