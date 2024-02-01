@@ -73,7 +73,7 @@ def extract_chords_from_midi(midi_filename):
 
                 if current_chord:
                     note_amount = len(current_chord)
-                    if note_amount > 1 < 6:
+                    if note_amount == 3:
                         chords.append((current_time, list(current_chord)))
 
         return chords, (numerator, denominator)
