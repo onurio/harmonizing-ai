@@ -142,20 +142,39 @@ class MusicTransformer(nn.Module):
 
 device = torch.device("cpu")
 
+
+loaded_dict = torch.load('model_state_dict.pth',map_location=torch.device('cpu'))
+
+
+
 # Assuming the definition of the MusicTransformer model is available from model.py
 # Initialize the Music Transformer model
-chord_vocab_size = 10950  # As specified earlier
-embed_size = 1024  # Example size, adjust as needed
-num_layers = 8  # Example value, adjust as needed
-heads = 4  # Example value, adjust as needed
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-forward_expansion = 4  # Example value, adjust as needed
-dropout = 0.3  # Example dropout rate, adjust as needed
-max_length = 100  # Maximum sequence length, adjust as needed
+# chord_vocab_size = 10950  # As specified earlier
+# embed_size = 2048  # Example size, adjust as needed
+# num_layers = 8  # Example value, adjust as needed
+# heads = 4  # Example value, adjust as needed
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# forward_expansion = 4  # Example value, adjust as needed
+# dropout = 0.3  # Example dropout rate, adjust as needed
+# max_length = 100  # Maximum sequence length, adjust as needed
+
+model_state_dict = loaded_dict['model_state_dict']
+loaded_hyperparameters = loaded_dict['hyperparameters']
+
+
+learning_rate = loaded_hyperparameters['learning_rate']
+batch_size = loaded_hyperparameters['batch_size']
+embed_size = loaded_hyperparameters['embed_size']
+num_layers = loaded_hyperparameters['num_layers']
+heads = loaded_hyperparameters['heads']
+forward_expansion = loaded_hyperparameters['forward_expansion']
+dropout = loaded_hyperparameters['dropout']
+max_length = loaded_hyperparameters['max_length']
+note_vocab_size = loaded_hyperparameters['note_vocab_size']
 
 print(device)
 model = MusicTransformer(
-    chord_vocab_size,
+    note_vocab_size,
     embed_size,
     num_layers,
     heads,
@@ -166,7 +185,7 @@ model = MusicTransformer(
 ).to(device)
 
 # Initialize the model
-model.load_state_dict(torch.load('model_state_dict.pth',map_location=torch.device('cpu')))
+model.load_state_dict(model_state_dict)
 model.to(device)
 
 
@@ -198,7 +217,7 @@ model.eval()  # Set the model to evaluation mode
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="127.0.0.1",
                     help="The ip of the OSC server")
-parser.add_argument("--port", type=int, default=9518,
+parser.add_argument("--port", type=int, default=9515,
                     help="The port the OSC server is listening on")
 args = parser.parse_args()
 # Set up OSC client (for sending messages)
