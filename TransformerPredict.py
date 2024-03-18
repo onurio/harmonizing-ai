@@ -217,7 +217,7 @@ model.eval()  # Set the model to evaluation mode
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="127.0.0.1",
                     help="The ip of the OSC server")
-parser.add_argument("--port", type=int, default=9515,
+parser.add_argument("--port", type=int, default=9516,
                     help="The port the OSC server is listening on")
 args = parser.parse_args()
 # Set up OSC client (for sending messages)
@@ -248,6 +248,7 @@ def handle_message(unused_addr, value):
         top_indices = top_indices.cpu().numpy().flatten().tolist()  # Move back to CPU and flatten
 
     top_indices.insert(0,value) # add the last note input.
+    print(top_indices,value)
     last_three_chords = last_three_chords[3:]
     last_three_chords.extend(top_indices)
     print(last_three_chords)

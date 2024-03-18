@@ -32,9 +32,13 @@ Chord prediction is a common task in music generation and analysis. This project
    pip install -r requirements.txt
    ```
 
-3. Prepare your input and target data in CSV format.
+3. Put all midi files in the `midi` folder
 
-4. Edit the configuration settings in `config.py` according to your dataset and model parameters.
+5. Run the script to create the training data:
+
+   ```bash
+   parse-midi.py
+   ```
 
 5. Run the training script:
 
