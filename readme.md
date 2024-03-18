@@ -1,23 +1,8 @@
-# Chord Prediction Model
-
-This project implements a chord prediction model using PyTorch and PyTorch Lightning. The model is designed to predict chords based on input notes, using a multi-layer LSTM architecture.
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Getting Started](#getting-started)
-- [Dependencies](#dependencies)
-- [Usage](#usage)
-- [Model Architecture](#model-architecture)
-- [Results](#results)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Introduction
 
-Chord prediction is a common task in music generation and analysis. This project demonstrates the implementation of a chord prediction model using PyTorch and PyTorch Lightning. The model uses an LSTM-based architecture to predict chords based on sequences of input notes for real-time harmonizing.
+Chord prediction is a common task in music generation and analysis. This project demonstrates the implementation of a chord prediction model using PyTorch. The model uses an Transformer-based architecture to predict chords based on sequences of input notes for real-time harmonizing. The project also contains Max patches for use in AbletonLive for realtime harmonization.
 
-## Getting Started
+## Usage
 
 1. Clone this repository:
 
@@ -40,10 +25,10 @@ Chord prediction is a common task in music generation and analysis. This project
    parse-midi.py
    ```
 
-5. Run the training script:
+5. Run the training notebook:
 
    ```bash
-   lstmLightning.py
+   HarmonizeTransformer.ipynb
    ```
 
 ## Dependencies
