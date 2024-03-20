@@ -99,7 +99,9 @@ total_chords = []
 def traverse_directory(directory):
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith(".mid"):
+            print(file)
+            if file.endswith(".mid") | file.endswith("midi"):
+
                 file_path = os.path.join(root, file)
                 extracted_chords, time_signature = extract_chords_from_midi(
                     file_path)
