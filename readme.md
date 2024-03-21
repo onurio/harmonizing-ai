@@ -12,10 +12,10 @@ https://github.com/onurio/harmonizing-ai/assets/36936789/4b5df45e-469b-4234-9348
 
 Harmonized Melody
 
-<audio controls>
-  <source src="https://firebasestorage.googleapis.com/v0/b/the-omri-nuri-project-website.appspot.com/o/yes-harm.mp3?alt=media&token=df8802c7-d552-453c-be59-f4b35700f41b" type="audio/mp3">
-  Your browser does not support the audio element.
-</audio>
+
+
+https://github.com/onurio/harmonizing-ai/assets/36936789/b66b0213-c480-4602-8919-cec53c277bc1
+
 
 
 ## Usage
