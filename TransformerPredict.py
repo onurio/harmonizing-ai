@@ -20,6 +20,9 @@ from torch.utils.data import Dataset, DataLoader
 
 import torch.optim as optim
 
+inputPort = 9515
+outputPort = 9516
+
 class MultiHeadAttention(nn.Module):
     def __init__(self, embed_size, heads):
         super(MultiHeadAttention, self).__init__()
@@ -217,7 +220,7 @@ model.eval()  # Set the model to evaluation mode
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="127.0.0.1",
                     help="The ip of the OSC server")
-parser.add_argument("--port", type=int, default=9516,
+parser.add_argument("--port", type=int, default=outputPort,
                     help="The port the OSC server is listening on")
 args = parser.parse_args()
 # Set up OSC client (for sending messages)
@@ -261,7 +264,7 @@ dispatcher.map("/input", handle_message)
 
 
 try:
-    server = osc_server.ThreadingOSCUDPServer(('localhost', 9514), dispatcher)
+    server = osc_server.ThreadingOSCUDPServer(('localhost', inputPort), dispatcher)
     print("Serving on {}".format(server.server_address))
     client.send_message("/status", 2)
     server.serve_forever()
