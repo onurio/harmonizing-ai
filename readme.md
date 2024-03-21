@@ -8,8 +8,12 @@ Chord prediction is a common task in music generation and analysis. This project
 
 Melody
 
+
+
+
 <audio controls>
-  <source src="https://firebasestorage.googleapis.com/v0/b/the-omri-nuri-project-website.appspot.com/o/no-harm.mp3?alt=media&token=a0f9371a-f12b-4576-8bc3-7a48c2760b96" type="audio/mp3">
+  <source src="[https://firebasestorage.googleapis.com/v0/b/the-omri-nuri-project-website.appspot.com/o/no-harm.mp3?alt=media&token=a0f9371a-f12b-4576-8bc3-7a48c2760b96](https://github.com/onurio/harmonizing-ai/assets/36936789/f5163bc9-c3b1-48d1-8859-4973fae2a3c6
+)" type="audio/mp3">
   Your browser does not support the audio element.
 </audio>
 
