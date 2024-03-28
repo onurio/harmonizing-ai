@@ -18,6 +18,10 @@ https://github.com/onurio/harmonizing-ai/assets/36936789/b66b0213-c480-4602-8919
 
 
 
+https://github.com/onurio/harmonizing-ai/assets/36936789/c36d6bf8-6c3c-4dc1-b3ed-3416b13fa408
+
+
+
 ## Usage
 
 1. Clone this repository:
