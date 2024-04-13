@@ -69,7 +69,7 @@ client.send_message("/status", 1)
 last_three_chords = [0,0,0,0,0,0,0,0,0]
 
 
-def handle_message(unused_addr, value):
+def handle_message(_, value):
     # Convert the received values to a PyTorch tensor
     # input_data = torch.tensor(values, dtype=torch.float32).unsqueeze(0)  # unsqueeze(0) to add batch dimension
     global last_three_chords  # Declare last_three_chords as global
