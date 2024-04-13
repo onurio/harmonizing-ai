@@ -147,20 +147,6 @@ device = torch.device("cpu")
 
 
 loaded_dict = torch.load('model_state_dict.pth',map_location=torch.device('cpu'))
-
-
-
-# Assuming the definition of the MusicTransformer model is available from model.py
-# Initialize the Music Transformer model
-# chord_vocab_size = 10950  # As specified earlier
-# embed_size = 2048  # Example size, adjust as needed
-# num_layers = 8  # Example value, adjust as needed
-# heads = 4  # Example value, adjust as needed
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# forward_expansion = 4  # Example value, adjust as needed
-# dropout = 0.3  # Example dropout rate, adjust as needed
-# max_length = 100  # Maximum sequence length, adjust as needed
-
 model_state_dict = loaded_dict['model_state_dict']
 loaded_hyperparameters = loaded_dict['hyperparameters']
 
@@ -192,29 +178,9 @@ model.load_state_dict(model_state_dict)
 model.to(device)
 
 
-
-# Generate an example input tensor
-# example_input = torch.tensor([0.922, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-#                              0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # Replace with your desired input
-
-# example_input = example_input.reshape(1, 128)
-
 # Pass the input through the model to get the prediction
 
 model.eval()  # Set the model to evaluation mode
-
-# for i in range(10):
-#     output = model(example_input)
-
-#     # Process the output as desired
-#     # For example, you can convert the output tensor to a numpy array
-#     output_array = output.sigmoid().detach().numpy()
-#     ready_out = output_array * (output_array > 0.7)
-#     ready_out = np.insert(ready_out, 0, [i/10.])
-#     # Print the generated example output
-#     print("Generated Example Output:")
-#     print(ready_out)
-#     example_input = torch.tensor(ready_out).reshape(1, 128)
 
 
 parser = argparse.ArgumentParser()
