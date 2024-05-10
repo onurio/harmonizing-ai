@@ -4,6 +4,10 @@
 
 Chord prediction is a common task in music generation and analysis. This project demonstrates the implementation of a chord prediction model using PyTorch. The model uses an Transformer-based architecture to predict chords based on sequences of input notes for real-time harmonizing. The project also contains Max patches for use in AbletonLive for realtime harmonization.
 
+## Live Demo
+
+[Live Demo](https://omrinuri.com/play/harmonizing-ai)
+
 ## examples
 
 Melody
